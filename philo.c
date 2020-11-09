@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
-#define PHILOSOPHES 3
 
 
-pthread_mutex_t baguette[PHILOSOPHES];
+
+int PHILOSOPHES;
 
 
 void mange(int id){
@@ -43,8 +43,26 @@ void* philosophe(void* arg){
 		return (NULL);
 	}
 int main (int argc, char *argv[]){
+	int N ;
+	//Specifie le nombre de threads demandés par l'utilisateur, mets le nombre de threads par défaut à 2
+    if(atoi(argv[1])>0){
+        N = atoi(argv[1]);
+    }
+    else{
+        N= 2;
+    }
+    
+   PHILOSOPHES =N;
+
+	static pthread_mutex_t baguette[PHILOSOPHES];
+    
+   
+    
+    
+    
 	
 	pthread_t phil[PHILOSOPHES];
+	
 	
 	
 	
