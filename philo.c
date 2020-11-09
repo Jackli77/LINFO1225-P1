@@ -11,21 +11,18 @@ pthread_mutex_t baguette[PHILOSOPHES];
 
 void mange(int id){
 	printf("Philosophe [%d] mange\n",id);
-	for(int i = 0; i<rand(); i++){
+	for(int i = 0; i<2; i++){
 		}
+		
 	}
 void* philosophe(void* arg){
-	
+	int count = 0;
 	int *id = (int *) arg;
-	
-	fprintf(stdout,"%d",*id);
-	fflush(stdout);
 	int left = *id;
 	
 	int right = (left +1)% PHILOSOPHES;
-	fprintf(stdout,"coucou");
-	fflush(stdout);
-	while(true){
+	
+	while(count <10000){
 		
 		if(left<right){
 			pthread_mutex_lock(&baguette[left]);
@@ -38,6 +35,7 @@ void* philosophe(void* arg){
 			
 			}
 		mange(*id);
+		count ++;
 		pthread_mutex_unlock(&baguette[left]);
 		pthread_mutex_unlock(&baguette[right]);
 			
@@ -47,6 +45,7 @@ void* philosophe(void* arg){
 int main (int argc, char *argv[]){
 	
 	pthread_t phil[PHILOSOPHES];
+	
 	
 	
 	for(int i= 0 ;i <PHILOSOPHES;i++){
