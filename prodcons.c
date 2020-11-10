@@ -33,11 +33,13 @@ int main(int argc, char *argv[]){
     int Nprod = 2;
     int Ncons = 2;
     int buffer[N];
-    if(atoi(argv[1])>0){
-        Nprod = atoi(argv[1]);
-    }
-    if(atoi(argv[2])>0){
-        Ncons = atoi(argv[2]);
+    if(strcmp(argv[1],"-N")==0){
+        if(atoi(argv[2])>0){
+            Nprod = atoi(argv[2]);
+        }
+        if(atoi(argv[3])>0){
+            Ncons = atoi(argv[3]);
+        }
     }
     pthread_t thread_id;
     pthread_create(&thread_id,NULL,produce,NULL);
