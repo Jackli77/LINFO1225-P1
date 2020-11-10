@@ -5,17 +5,17 @@
 #include <unistd.h>
 
 
-#define PHILOSOPHES 4
+int PHILOSOPHES;
 
 
-pthread_mutex_t *baguette ;
+pthread_mutex_t *baguette;
 
 
 
 
 void mange(int id){
 	printf("Philosophe [%d] mange\n",id);
-	for(int i = 0; i<2; i++){
+	for(int i = 0; i<rand(); i++){
 		}
 		
 	}
@@ -49,30 +49,17 @@ while(count <10000){
 }
 
 int main (int argc, char *argv[]){
-	int N ;
-	//Specifie le nombre de threads demandés par l'utilisateur, mets le nombre de threads par défaut à 2
-    if(atoi(argv[1])>0){
-        N = atoi(argv[1]);
-    }
-    else{
-        N= 2;
-    }
-    
-    
-  
-   baguette = (pthread_mutex_t*)malloc(N);
-   
-  
-    
 	
+	PHILOSOPHES = 4;
 	pthread_t phil[PHILOSOPHES];
-	
+	baguette = malloc(PHILOSOPHES*sizeof(pthread_mutex_t));
 	
 	
 	
 	for(int i= 0 ;i <PHILOSOPHES;i++){
 	pthread_mutex_init(&(baguette[i]),NULL);
 	}
+	
 	
 
 	for(int i=  0; i<PHILOSOPHES;i++){
