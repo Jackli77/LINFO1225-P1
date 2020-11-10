@@ -52,10 +52,11 @@ int main (int argc, char *argv[]){
 	
 	
 	PHILOSOPHES = 4;
-	
-    if(atoi(argv[1])!=0){
-        PHILOSOPHES = atoi(argv[1]);
-    }
+	if(strcmp(argv[1],"-N") == 0){
+		if(atoi(argv[1])>0){
+        		PHILOSOPHES = atoi(argv[1]);
+		}
+    	}
     
 	pthread_t phil[PHILOSOPHES];
 	baguette = malloc(PHILOSOPHES*sizeof(pthread_mutex_t));
