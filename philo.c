@@ -52,9 +52,9 @@ int main (int argc, char *argv[]){
 	
 	
 	PHILOSOPHES = 4;
-	if(strcmp(argv[1],"-N") == 0){
-		if(atoi(argv[2])>0){
-        		PHILOSOPHES = atoi(argv[2]);
+	if(argc == 2){
+		if(atoi(argv[1])>0){
+        		PHILOSOPHES = atoi(argv[1]);
 		}
     	}
     
