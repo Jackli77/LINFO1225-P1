@@ -67,11 +67,15 @@ int main (int argc, char *argv[]){
 	pthread_mutex_init(&(baguette[i]),NULL);
 	}
 	
-	
+	if(PHILOSOPHES == 1){
+		philosophe(&phil[0]);
+		return 0;}
 
 	for(int i=  0; i<PHILOSOPHES;i++){
 		pthread_create(&(phil[i]),NULL,&philosophe,&baguette[i]);
 		}
+		
+		
 		
 		
 		
