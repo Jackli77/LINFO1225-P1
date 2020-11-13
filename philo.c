@@ -14,8 +14,8 @@ pthread_mutex_t *baguette;
 
 
 void mange(int id){
-	printf("Philosophe [%d] mange\n",id);
-	for(int i = 0; i<2; i++){
+	
+	for(int i = 0; i<rand(); i++){
 		}
 		
 	}
