@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdio.h>
+#include <pthread.h>
+#include <unistd.h>
 
 #define N 8
 /*Ce fichier résout le problème des producteurs consommateurs pour un producteur qui génère un nombre aléatoire et un consommateur qui attend quelques cycles*/
@@ -19,6 +21,13 @@ void insert_item() {
 }
 
 int remove() {
+    for(int i = 0; i < N; i++){
+        if(buffer[i] != NULL){
+            int temp = buffer[i];
+            buffer[i] = NULL;
+            return temp;
+        }
+    }
 }
 
 void producer(void) {
