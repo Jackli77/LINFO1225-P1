@@ -1,64 +1,68 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdio.h>
+
 #define N 8
 /*Ce fichier résout le problème des producteurs consommateurs pour un producteur qui génère un nombre aléatoire et un consommateur qui attend quelques cycles*/
 int buffer[N];
-for(int i = 0;i<N;i++){
-    buffer[i] = NULL;
+for(int i = 0; i<N; i++){
+buffer[i] = NULL;
 }
-void insert_item(){
-    for(int i = 0;i<N;i++){
-        if(buffer[i] == NULL){
+
+void insert_item() {
+    for (int i = 0; i < N; i++) {
+        if (buffer[i] == NULL) {
             buffer[i] = item;
             return;
-            }
         }
     }
-int remove(){
-    }
-void producer(void){
+}
+
+int remove() {
+}
+
+void producer(void) {
     int item;
-    while(true){
+    while (true) {
         item = rand();
         sem_wait(&empty); // attente d'une place libre
         pthread_mutex_lock(&mutex);// section critique
         insert_item();
-        pthread_mutex_unlock(&mutex);    
+        pthread_mutex_unlock(&mutex);
         sem_post(&full); // une place remplie en plus  
     }
 }
 
-void consumer(void){
+void consumer(void) {
     int item;
-    while(true) {
+    while (true) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
-        item=remove(item);
+        item = remove(item);
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
-        }
     }
+}
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     //Specifie le nombre de threads demandés par l'utilisateur, le nombre de threads par défaut est 2.
     int Nprod = 2;
     int Ncons = 2;
-    if(strcmp(argv[1],"-N")==0){
-        if(atoi(argv[2])>0){
+    if (strcmp(argv[1], "-N") == 0) {
+        if (atoi(argv[2]) > 0) {
             Nprod = atoi(argv[2]);
         }
-        if(atoi(argv[3])>0){
+        if (atoi(argv[3]) > 0) {
             Ncons = atoi(argv[3]);
         }
     }
     pthread_t thread_id;
-    pthread_create(&thread_id,NULL,produce,NULL);
+    pthread_create(&thread_id, NULL, produce, NULL);
     pthread_mutex_t mutex;
     sem_t empty;
     sem_t full;
     pthread_mutex_init(&mutex, NULL);
-    sem_init(&empty, 0 , N);  // buffer vide
-    sem_init(&full, 0 , 0);
+    sem_init(&empty, 0, N);  // buffer vide
+    sem_init(&full, 0, 0);
     return 0;
 }
