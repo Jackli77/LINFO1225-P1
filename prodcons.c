@@ -2,9 +2,21 @@
 #include<stdlib.h>
 #include<stdio.h>
 #define N 8
-/*Ce fichier résout le problème des producteurs consomateurs pour un prodcteur qui génère un nombre aléatoire et un consommateur qui attend une durée aléatoire*/
-
-
+/*Ce fichier résout le problème des producteurs consommateurs pour un producteur qui génère un nombre aléatoire et un consommateur qui attend quelques cycles*/
+int buffer[N];
+for(int i = 0;i<N;i++){
+    buffer[i] = NULL;
+}
+void insert_item(){
+    for(int i = 0;i<N;i++){
+        if(buffer[i] == NULL){
+            buffer[i] = item;
+            return;
+            }
+        }
+    }
+int remove(){
+    }
 void producer(void){
     int item;
     while(true){
@@ -32,7 +44,6 @@ int main(int argc, char *argv[]){
     //Specifie le nombre de threads demandés par l'utilisateur, le nombre de threads par défaut est 2.
     int Nprod = 2;
     int Ncons = 2;
-    int buffer[N];
     if(strcmp(argv[1],"-N")==0){
         if(atoi(argv[2])>0){
             Nprod = atoi(argv[2]);
