@@ -23,7 +23,7 @@ void insert_item() {
     }
 }
 
-void remove() {
+void remove_item() {
     for (int i = 0; i < N; i++) {
         if (buffer[i] != NULL) {
             buffer[i] = NULL;
@@ -46,7 +46,7 @@ void consumer(void) {
     while (true) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
-        remove();
+        remove_item();
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
     }
