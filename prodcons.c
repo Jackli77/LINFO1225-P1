@@ -2,10 +2,12 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <unistd.h>
-
+#include<string.h>
 #define N 8
 /*Ce fichier résout le problème des producteurs consommateurs pour un producteur qui génère un nombre aléatoire et un consommateur qui attend quelques cycles*/
+sem_t mutex;
 int buffer[N];
 for(int i = 0; i<N; i++){
 buffer[i] = NULL;
@@ -14,24 +16,23 @@ buffer[i] = NULL;
 void insert_item() {
     for (int i = 0; i < N; i++) {
         if (buffer[i] == NULL) {
-            buffer[i] = item;
+            buffer[i] = rand();
             return;
         }
     }
 }
 
-int remove() {
+void remove() {
     for(int i = 0; i < N; i++){
         if(buffer[i] != NULL){
             int temp = buffer[i];
             buffer[i] = NULL;
-            return temp;
+            return;
         }
     }
 }
 
 void producer(void) {
-    int item;
     while (true) {
         item = rand();
         sem_wait(&empty); // attente d'une place libre
@@ -43,14 +44,14 @@ void producer(void) {
 }
 
 void consumer(void) {
-    int item;
     while (true) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
-        item = remove(item);
+        remove();
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
     }
+    while(rand() > RAND_MAX/10000);{}
 }
 
 int main(int argc, char *argv[]) {
@@ -65,8 +66,6 @@ int main(int argc, char *argv[]) {
             Ncons = atoi(argv[3]);
         }
     }
-    pthread_t thread_id;
-    pthread_create(&thread_id, NULL, produce, NULL);
     pthread_mutex_t mutex;
     sem_t empty;
     sem_t full;
