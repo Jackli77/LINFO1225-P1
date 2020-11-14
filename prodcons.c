@@ -38,7 +38,6 @@ void producer(void) {
 }
 
 void consumer(void) {
-    int item;
     for(int i = 0;i<MAX;i++) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
     }
     pthread_t pro[Nprod], con[Ncons];
     pthread_mutex_init(&mutex, NULL);
-    sem_init(&empty, 0, BufferSize);
+    sem_init(&empty, 0, N);
     sem_init(&full, 0, 0);
 
     for (int i = 0; i < Nprod; i++) {
