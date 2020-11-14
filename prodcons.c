@@ -41,7 +41,6 @@ void consumer(void) {
         pthread_mutex_lock(&mutex);// section critique
         remove_item();
         while (rand() > RAND_MAX / 10000){}
-        printf("consumed the %d value",i);
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
     }

@@ -6,8 +6,7 @@ for ((i=1; i<RUNS; i++))
 do
     for((n=1; n<=NTHREAD; n++))
     do
-	make clean -s 2> /dev/null
-	output=$(/usr/bin/time -f %e ./philo $n -s 2>&1)
+	output=$(/usr/bin/time -f %e ./prodcons.o $n $n -s 2>&1)
 	echo $n,${output} >>script.csv
     done
     
