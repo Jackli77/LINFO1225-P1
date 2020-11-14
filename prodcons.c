@@ -21,14 +21,12 @@ void insert_item() {
     give = (1+give)%8;
 }
 
-int remove_item() {
-    int temp = buffer[take];
+void remove_item() {
     take = (1+take)%8;
-    return temp;
 }
 
 void producer(void) {
-    for(int i = 0;i<MAX;i++) {
+    for(int i = 0;i<=MAX;i++) {
         sem_wait(&empty); // attente d'une place libre
         pthread_mutex_lock(&mutex);// section critique
         insert_item();
@@ -38,11 +36,12 @@ void producer(void) {
 }
 
 void consumer(void) {
-    for(int i = 0;i<MAX;i++) {
+    for(int i = 0;i<=MAX;i++) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
-        int item = remove_item();
-        while (item > RAND_MAX / 10000){}
+        remove_item();
+        while (rand() > RAND_MAX / 10000){}
+        printf("consumed the %d value",i);
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
     }
@@ -66,10 +65,10 @@ int main(int argc, char *argv[]) {
     sem_init(&full, 0, 0);
 
     for (int i = 0; i < Nprod; i++) {
-        pthread_create(&pro[i], NULL, (void *) producer, itoa(i));
+        pthread_create(&pro[i], NULL, (void *) producer, (void*) &i);
     }
     for (int i = 0; i < Ncons; i++) {
-        pthread_create(&con[i], NULL, (void *) consumer, itoa(i));
+        pthread_create(&con[i], NULL, (void *) consumer, (void*) &i);
     }
 
     for (int i = 0; i < Nprod; i++) {
