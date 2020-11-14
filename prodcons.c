@@ -66,10 +66,10 @@ int main(int argc, char *argv[]) {
     sem_init(&full, 0, 0);
 
     for (int i = 0; i < Nprod; i++) {
-        pthread_create(&pro[i], NULL, (void *) producer, i);
+        pthread_create(&pro[i], NULL, (void *) producer, itoa(i));
     }
     for (int i = 0; i < Ncons; i++) {
-        pthread_create(&con[i], NULL, (void *) consumer, i);
+        pthread_create(&con[i], NULL, (void *) consumer, itoa(i));
     }
 
     for (int i = 0; i < Nprod; i++) {
