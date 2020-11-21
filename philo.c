@@ -8,7 +8,7 @@
 int PHILOSOPHES ;
 
 
-pthread_mutex_t *baguette;
+static pthread_mutex_t *baguette;
 
 
 
@@ -19,18 +19,17 @@ void mange(int id){
 	}
 	
  void* philosophe(void * arg){
-	
-	
+	 	
 int count = 0;
 int *id = (int *) arg;
 
 
 
-int left = (*id);
+int left = *id;
 
 int right = (left+1)% PHILOSOPHES;
 
-while(count <10000){
+while(count <10000000){
 	
 	
 	
@@ -46,7 +45,6 @@ while(count <10000){
 		}
 	
 	mange(*id);
-	
 	count ++;
 	pthread_mutex_unlock(&baguette[left]);
 	pthread_mutex_unlock(&baguette[right]);
@@ -56,7 +54,7 @@ while(count <10000){
 }
 
 int main (int argc, char *argv[]){
-	PHILOSOPHES = 4;
+	PHILOSOPHES = 8;
 	if(argc == 2){
 		if(atoi(argv[1])>0){
         		PHILOSOPHES = atoi(argv[1]);
@@ -67,11 +65,10 @@ int main (int argc, char *argv[]){
     
 	pthread_t phil[PHILOSOPHES];
 	int id[PHILOSOPHES];
-	srand(getpid());
 	baguette = malloc(PHILOSOPHES*sizeof(pthread_mutex_t));
 	
 	if(PHILOSOPHES == 1){
-		for(int i = 0 ; i< 10000;i++){
+		for(int i = 0 ; i< 10000000;i++){
 			mange(1);}
 			return 1 ;}
 	
