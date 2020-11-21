@@ -20,7 +20,6 @@ all: philo.c prodcons.c
 
 clean:
 	rm -f *.o
-	rm -f *.csv
 	rm -f prodcons
 	rm -f philo
 	rm -f read
