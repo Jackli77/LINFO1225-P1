@@ -9,70 +9,90 @@ import pandas as pd
 
 # On crée une première figure, par défaut toutes les commandes plt qui vont suivre vont s'appliquer sur cette figure (qui est la dernière déclarée).
 fig1 = plt.figure()
-fd = pd.read_csv("script.csv")
-threads = fd.nb_coeurs.values 
-temps = fd.temps.values 
+philo = pd.read_csv("philo.csv")
+prodcons = pd.read_csv("prodcons.csv")
+read = pd.read_csv("read.csv")
+threads_philo = philo.nb_coeurs.values 
+temps_philo = philo.temps.values 
+threads_prod = prodcons.nbcoeurs.values 
+temps_prod = prodcons.temps.values 
+threads_read = read.nbcoeurs.values 
+temps_read = read.temps.values 
+def philosophe(temps,threads):
+    T_b = []
+    T_m = [philo.nb_coeurs.values[0]]
+    for i in range(1,len(philo.nb_coeurs.values)):
+        if philo.nb_coeurs.values[0] == philo.nb_coeurs.values[i]:
+            break
+        T_m.append(philo.nb_coeurs.values[i])
+    for i in range(0,len(T_m)):
+        j = i
+        arr = []
+        while j < len(temps):
+            arr.append(temps[j])
+            j += len(T_m)
+        print(arr)
+        T_b.append(np.mean(arr))
+    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
+    plt.xlim(1,len(T_m))
+    plt.xticks(np.linspace(1,len(T_m),len(T_m)))
+    plt.xlabel('Threads')
+    plt.ylabel('Temps moyen')
+    plt.title('mesure de performance philosophes')
+    plt.grid(True)
+    plt.savefig("philo.png")
+    plt.show()
+    plt.close()
 
-# température moyenne l'année passée à Bruxelles
-T_b = []
-# température moyenne l'année passée à Marseille
-T_m = [fd.nb_coeurs.values[0]]
-for i in range(1,len(fd.nb_coeurs.values)):
-    if fd.nb_coeurs.values[0] == fd.nb_coeurs.values[i]:
-        break
-    T_m.append(fd.nb_coeurs.values[i])
-# Les mois correspondant
-for i in range(0,len(T_m)):
-    j = i
-    arr = []
-    while j < len(temps):
-        arr.append(temps[j])
-        j += len(T_m)
-    T_b.append(np.mean(arr))
-        
-        
-        
+def producteurs(temps,threads):
+    T_b = []
+    T_m = [prodcons.nbcoeurs.values[0]]
+    for i in range(1,len(prodcons.nbcoeurs.values)):
+        if prodcons.nbcoeurs.values[0] == prodcons.nbcoeurs.values[i]:
+            break
+        T_m.append(prodcons.nbcoeurs.values[i])
+    for i in range(0,len(T_m)):
+        j = i
+        arr = []
+        while j < len(temps):
+            arr.append(temps[j])
+            j += len(T_m)
+        T_b.append(np.mean(arr))
+    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
+    plt.xlim(1,len(T_m))
+    plt.xticks(np.linspace(1,len(T_m),len(T_m)))
+    plt.xlabel('Threads')
+    plt.ylabel('Temps moyen')
+    plt.title('mesure de performance producteurs consommateurs')
+    plt.grid(True)
+    plt.savefig("prodcons.png")
+    plt.show()
+    plt.close()
+def reader(temps, threads):
+    T_b = []
+    T_m = [read.nbcoeurs.values[0]]
+    for i in range(1,len(read.nbcoeurs.values)):
+        if read.nbcoeurs.values[0] == read.nbcoeurs.values[i]:
+            break
+        T_m.append(read.nbcoeurs.values[i])
+    for i in range(0,len(T_m)):
+        j = i
+        arr = []
+        while j < len(temps):
+            arr.append(temps[j])
+            j += len(T_m)
+        T_b.append(np.mean(arr))
+    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
+    plt.xlim(1,len(T_m))
+    plt.xticks(np.linspace(1,len(T_m),len(T_m)))
+    plt.xlabel('Threads')
+    plt.ylabel('Temps moyen')
+    plt.title('mesure de performance lecteurs écrivains')
+    plt.grid(True)
+    plt.savefig("read.png")
+    plt.show()
+    plt.close()
 
-# On trace la température moyenne en fonction du mois en bleu avec un trait plein de 1 pixel d'épaisseur
-plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
-
-# Possibles linestyles pour le plot : [ '-' | '--' | '-.' | ':' | ...]
-# Pour vous amusez avec les couleurs disponibles : https://matplotlib.org/3.1.0/gallery/color/named_colors.html
-# idem avec les températures de Marseille
-
-# Limiter le range de valeurs affichées pour l'axe des x
-plt.xlim(1,len(T_m))
-
-# Forcer la graduation en y. np.linspace découpe l'intervalle [1,12] en parties égales
-# Il renvoie 12 graduations [1,2,3...12]. (peut aussi être fait manuellement)
-plt.xticks(np.linspace(1,len(T_m),len(T_m)))
-
-# Donner un label à l'axe x
-plt.xlabel('Threads')
-
-# Limiter le range de valeur affiché pour y
-
-
-# Forcer la graduation en y. np.linspace découpe l'intervalle [0,30] en parties égales et renvoie 7 graduations (5 graduations + 2 pour '0' et '30')
-
-
-# Donner un label à l'axe y
-plt.ylabel('Temps moyen')
-
-# Donner un titre à votre graphe.
-plt.title('mesure de performance')
-
-# Permet d'ajouter une grille au graphe, rendant la lecture de vos données plus facile.
-plt.grid(True)
-
-# Ajouter une légende, loc peut prendre différentes valeurs (https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend.html)
-
-# on enregistre le graphique. L'extension est directement déduite du nom donné en argument (png par défault).
-plt.savefig("Exemple.png")
-plt.savefig("Exemple.pdf")
-
-# Optionnel : on affiche le graphe à l'écran (note: show est un appel bloquant, tant que le graphe n'est pas fermé, on est bloqué)
-plt.show()
-
-# On ferme proprement le plot.
-plt.close()
+philosophe(temps_philo,threads_philo)
+producteurs(temps_prod,threads_prod)
+reader(temps_read,threads_read)
