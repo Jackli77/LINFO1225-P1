@@ -1,3 +1,4 @@
+#include "testandset.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdio.h>
@@ -7,29 +8,7 @@
 #include<string.h>
 #include<stdbool.h>
 int N;
-int lock = 0;
-int leave(int mem){
-	asm(
-	"movl $0, %%eax;"
-	"xchgl %%eax,%1;"
-	"movl %%eax,%0;"
-	:"=r"(lock), "=r"(mem)
-	);
-	printf("lock %d mem %d",lock,mem);
-	return mem;
-	}
-	
-int enter(int mem){
-	while(mem == 1){
-	asm(
-	"movl $1 ,%%eax;"
-	"xchgl %%eax,%0;"
-	"movl %%eax,%1;"
-	:"=r"(lock), "=r"(mem)
-	:"r"(mem));
-	}
-	return mem;
-	}
+
 void section_crit(void){
 	int mem = 1;
 	int count = 0;
@@ -40,7 +19,7 @@ void section_crit(void){
 	count ++;}
 	}
 int main(void){
-	N = 10;
+	N = 1;
 	pthread_t threads[N];
 	for(int i = 0; i<N; i++){
 		pthread_create(&threads[i],NULL,(void *) section_crit,NULL);
