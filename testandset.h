@@ -1,26 +1,30 @@
 #include <stdio.h>
-int mem = 1;
-extern int counter;
-
-void leave(void){
-	asm(
-	"movl $0, %%eax;"
-	"xchgl %%eax,%0;"
+int lock = 0;
+int leave(int mem){
 	
-	:"=r"(counter)
-	:"r" (counter)
-	);
-	}
-void enter(void){
-	while(counter  != 1){
 	asm(
-	"movl %1 ,%%eax;"
-	"xchgl %%eax,%0;"
-	"movl %%eax,%1;"
-	:"=r"(counter)
-	:"r"(mem));
-	{printf(" %d ",counter);}
-		}
-	return;
+	"movl %0, %%eax;"
+	"xchgl %%eax,%1;"
+	"movl %%eax,%0;"
+	:"=g"(lock),"=m" (mem)
+	
+	);
+	
+	
+	return mem;
 	}
-
+	
+int enter(int mem){
+	while(mem == 1){
+	asm(
+	"movl %2 ,%%eax;"
+	"xchgl %%eax,%0;"
+	"movl %%eax, %1;"
+	: "=g"(lock),"=m"(mem)
+	:"m"(mem));
+	printf("block ");
+	
+	}
+	printf("passed ");
+	return mem;
+	}
