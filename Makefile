@@ -5,7 +5,7 @@ philo: philo.c
 
 prodcons: prodcons.c
 	$(CC) $(CFlags) -o prodcons prodcons.c -lm -lpthread
-	
+
 read: lect_read.c
 	$(CC) $(CFlags) -o read lect_read.c -lm -lpthread
 
@@ -24,4 +24,5 @@ clean:
 	rm -f prodcons
 	rm -f philo
 	rm -f read
+	rm -f test
 

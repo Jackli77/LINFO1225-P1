@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+int mem;
 int counter = 0;
 
 void leave(void){
@@ -18,13 +18,14 @@ void enter(void){
 	asm(
 	"movl $1 ,%%eax;"
 	"xchgl %%eax,%0;"
-	:"=r"(counter));
+	"movl %%eax,%1;"
+	:"=r"(counter)
+	:"r"(mem));
 	printf("%d ",counter);
 	
-	if(counter  == 1){
+	if(counter  == 1 && mem == 0){
 		//action
 		return;}
-	else{printf("full");
-		enter();}
+	else{enter();}
 	}
 

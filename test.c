@@ -14,12 +14,12 @@ void section_crit(void){
 	while(count < 6400/N){
 	enter();
 	while(rand() > RAND_MAX/10000);
-	printf("action");
+	
 	leave();
 	count ++;}
 	}
 int main(void){
-	N = 2;
+	N = 10;
 	pthread_t threads[N];
 	for(int i = 0; i<N; i++){
 		pthread_create(&threads[i],NULL,(void *) section_crit,NULL);
