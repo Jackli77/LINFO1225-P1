@@ -1,26 +1,27 @@
 #include <stdio.h>
-int block;
+
 int counter = 0;
 
 void leave(void){
 	asm(
-	"decl %%eax;"
+	"movl $0, %%eax;"
 	"xchgl %%eax,%0;"
-	"movl %%eax , %1"
+	
 	:"=r"(counter)
 	:"r" (counter)
 	);
 	}
 	
 void enter(void){
-	asm(
-	"movl %1 ,%%eax;"
-	"xchgl %%eax,%0;"
-	"movl %%eax, %1;"
-	:"=r"(counter)
-	:"r"(block));
 	
-	if(block  == 0){
+	printf("%d ",counter);
+	asm(
+	"movl $1 ,%%eax;"
+	"xchgl %%eax,%0;"
+	:"=r"(counter));
+	printf("%d ",counter);
+	
+	if(counter  == 1){
 		//action
 		return;}
 	else{printf("full");
