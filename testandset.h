@@ -1,6 +1,6 @@
 #include <stdio.h>
-int mem;
-int counter = 0;
+int mem = 1;
+extern int counter;
 
 void leave(void){
 	asm(
@@ -11,21 +11,16 @@ void leave(void){
 	:"r" (counter)
 	);
 	}
-	
 void enter(void){
-	
-	printf("%d ",counter);
+	while(counter  != 1){
 	asm(
-	"movl $1 ,%%eax;"
+	"movl %1 ,%%eax;"
 	"xchgl %%eax,%0;"
 	"movl %%eax,%1;"
 	:"=r"(counter)
 	:"r"(mem));
-	printf("%d ",counter);
-	
-	if(counter  == 1 && mem == 0){
-		//action
-		return;}
-	else{enter();}
+	{printf(" %d ",counter);}
+		}
+	return;
 	}
 
