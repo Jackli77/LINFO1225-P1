@@ -1,4 +1,4 @@
-#include "testandset.c"
+#include"testandset.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdio.h>
@@ -7,7 +7,6 @@
 #include<unistd.h>
 #include<string.h>
 #include<stdbool.h>
-#include <stdio.h>
 int N;
 
 void section_crit(void){
