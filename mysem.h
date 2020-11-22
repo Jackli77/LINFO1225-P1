@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include "tatas.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdio.h>
@@ -15,7 +13,7 @@ int leave(int * lock,int * mem){
 	"movl %%eax,(%0);"
 	:"=g"(lock),"=m" (mem)
 	);
-	return *mem;
+	return 0;
 	}
 	
 int enter(int * lock,int * mem){
@@ -30,7 +28,7 @@ int enter(int * lock,int * mem){
 	printf("block ");
 	}
 	printf("passed ");
-	return *mem;
+	return 0;
 	}
 	
 int * mysem_open(){
@@ -46,12 +44,12 @@ int * mysem_init(){
 	}
 	
 int mysem_wait(int *lock,int *mem){
-	*mem = enter(*mem);
+	enter(lock,mem);
 	return 0;
 	}
 	
 int mysem_post(int *lock,int *mem){
-	*mem = leave(*mem);
+	leave(lock,mem);
 	return 0;
 	}
 void free(int* mem){
