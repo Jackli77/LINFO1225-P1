@@ -1,4 +1,4 @@
-# LINFO1252-Projet 1 - Groupe 3 - 10
+# LINFO1252-Projet1-Groupe3-10
 
 Projet réalisé dans le cadre du cours d'informatique LINFO1252 donné par le Pr. Riviere Etienne.
 Lien vers le répo : https://github.com/Jackli77/LINFO1225_P1
