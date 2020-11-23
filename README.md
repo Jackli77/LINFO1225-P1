@@ -1,6 +1,6 @@
 # LINFO1252-Projet 1 - Groupe 3 - 10
 
-Projet réalisé dans le cadre du cours d'informatique LINFO1104 donné par le Pr. Peter Van Roy.
+Projet réalisé dans le cadre du cours d'informatique LINFO1252 donné par le Pr. Riviere Etienne.
 Lien vers le répo : https://github.com/Jackli77/LINFO1225_P1
 
 ## Objectif
