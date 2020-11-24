@@ -6,8 +6,8 @@
 #include<pthread.h>
 // initialisation des variables globales
 sem_t block,readmutex,readcount,writemutex,writecount;
-int writercount = 0;
-int readercount = 0;
+int writercount;
+int readercount ;
 int count1 = 0;
 int count2 = 0;
 
@@ -16,13 +16,16 @@ int count2 = 0;
 void ecrire(){
 	printf("écrire   ");
 	//on incrémente le conteur d'écriture et lecture
-	count1++;
+	
 	while(rand() > RAND_MAX/10000);
+	count1++;
 	}
 void lecture(){
 	printf("lire    ");
-	count2++;
-	while(rand() > RAND_MAX/10000);}
+	
+	while(rand() > RAND_MAX/10000);
+	count2++;}
+	
 
 void reader(void* param)
 {
@@ -35,7 +38,7 @@ void reader(void* param)
 	sem_post(&readcount);
 	sem_post(&readmutex);
 	sem_post(&block);
-	ecrire();
+	lecture();
 	sem_wait(&readcount);
 	readercount --;
 	if(readercount ==0){sem_post(&writemutex);}
@@ -82,24 +85,27 @@ int main(int argc, char *argv[])
             ecrivains = atoi(argv[2]);
         }
     }
-   
+	readercount = lecteurs;
+	writercount = ecrivains;
     sem_init(&writecount,0,1);
     sem_init(&writemutex,0,1);
     sem_init(&readcount,0,1);
     sem_init(&readmutex,0,1);
+    sem_init(&block,0,1);
     pthread_t writerthreads[ecrivains];
     pthread_t readerthreads[lecteurs];
     if(ecrivains == 0){
 		for (int i = 0; i<2560;i++){lecture();}
 		return 0;}
 			
-     for(int i = 0; i<lecteurs; i++){
+   
+   
+	for(int i = 0; i<ecrivains; i++){
+	pthread_create(&writerthreads[i],NULL, (void*)writer,NULL);}
+	
+  for(int i = 0; i<lecteurs; i++){
 		pthread_create(&readerthreads[i],NULL, (void*)reader,NULL);
 		}
-   
-    		for(int i = 0; i<ecrivains; i++){
-	pthread_create(&writerthreads[i],NULL, (void*)writer,NULL);}
-
 
 	for(int i =0;i<ecrivains;i++)
 		{
