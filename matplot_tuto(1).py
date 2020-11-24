@@ -13,6 +13,7 @@ philo = pd.read_csv("philo.csv")
 prodcons = pd.read_csv("prodcons.csv")
 read = pd.read_csv("read.csv")
 test = pd.read_csv("test.csv")
+tatas = pd.read_csv("tatas.csv")
 threads_philo = philo.nb_coeurs.values 
 temps_philo = philo.temps.values 
 threads_prod = prodcons.nbcoeurs.values 
@@ -20,7 +21,8 @@ temps_prod = prodcons.temps.values
 threads_read = read.nbcoeurs.values 
 temps_read = read.temps.values
 threads_test = test.nbcoeurs.values 
-temps_test = test.temps.values 
+temps_test = test.temps.values
+temps_tatas = tatas.temps.values 
 
 def philosophe(temps,threads):
     T_b = []
@@ -73,22 +75,24 @@ def producteurs(temps,threads):
     plt.show()
     plt.close()
 def reader(temps, threads):
-    T_b = []
-    T_m = [read.nbcoeurs.values[0]]
+    T_b = [0]
+    T_m = [0,read.nbcoeurs.values[0]]
+    e = [0]
     for i in range(1,len(read.nbcoeurs.values)):
         if read.nbcoeurs.values[0] == read.nbcoeurs.values[i]:
             break
         T_m.append(read.nbcoeurs.values[i])
-    for i in range(0,len(T_m)):
+    for i in range(0,len(T_m)-1):
         j = i
         arr = []
         while j < len(temps):
             arr.append(temps[j])
-            j += len(T_m)
+            j += len(T_m)-1
         T_b.append(np.mean(arr))
-    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
-    plt.xlim(1,len(T_m))
-    plt.xticks(np.linspace(1,len(T_m),len(T_m)))
+        e.append(np.std(arr))
+    plt.errorbar(T_m, T_b,e, color="blue", linewidth=1.0, linestyle="-")
+    plt.xlim(1,len(T_m)-1)
+    plt.xticks(np.linspace(1,len(T_m)-1,len(T_m)-1))
     plt.xlabel('Threads')
     plt.ylabel('Temps moyen')
     plt.title('mesure de performance lecteurs écrivains')
@@ -96,21 +100,31 @@ def reader(temps, threads):
     plt.savefig("read.png")
     plt.show()
     plt.close()
-def testing(temps,threads):
-    T_b = []
-    T_m = [test.nbcoeurs.values[0]]
+def testing(temps,temps2,threads):
+    T_b = [0]
+    T_a = [0]
+    ea = [0]
+    eb = [0]
+    T_m = [0,test.nbcoeurs.values[0]]
     for i in range(1,len(test.nbcoeurs.values)):
         if test.nbcoeurs.values[0] == test.nbcoeurs.values[i]:
             break
         T_m.append(test.nbcoeurs.values[i])
-    for i in range(0,len(T_m)):
+    for i in range(0,len(T_m)-1):
         j = i
         arr = []
+        arr2 = []
         while j < len(temps):
             arr.append(temps[j])
-            j += len(T_m)
+            arr2.append(temps2[j])
+            j += len(T_m)-1
         T_b.append(np.mean(arr))
-    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
+        T_a.append(np.mean(arr2))
+        ea.append(np.std(arr))
+        eb.append(np.std(arr2))
+    plt.errorbar(T_m, T_b,ea, color="blue", linewidth=1.0, linestyle="-",label = "testandset")
+    plt.errorbar(T_m, T_a,eb, color="green", linewidth=1.0, linestyle="-",label = "test and test and set")
+    plt.legend()
     plt.xlim(1,len(T_m))
     plt.xticks(np.linspace(1,len(T_m),len(T_m)))
     plt.xlabel('Threads')
@@ -120,7 +134,5 @@ def testing(temps,threads):
     plt.savefig("test.png")
     plt.show()
     plt.close()
-philosophe(temps_philo,threads_philo)
-producteurs(temps_prod,threads_prod)
-reader(temps_read,threads_read)
-testing(temps_test,threads_test)
+
+testing(temps_test,temps_tatas,threads_test)
