@@ -5,62 +5,54 @@
 #include<unistd.h>
 #include<string.h>
 #include<stdbool.h>
-
-int leave(int * lock,int * mem){
+struct mysem{
+	int lock;};
+	
+	void leave(struct mysem *a){
+	
+	int mem = 0;
 	asm(
-	"movl (%0), %%eax;"
-	"xchgl %%eax,(%1);"
-	"movl %%eax,(%0);"
-	:"=g"(lock),"=m" (mem)
+	"movl %0, %%eax;"
+	"xchgl %%eax,%1;"
+	"movl %%eax,%0;"
+	:"=g"(a->lock),"=m"(mem)
 	);
-	return 0;
 	}
 	
-int enter(int * lock,int * mem){
-	while(*mem == 1){
-		while(*lock == 1){}
+	void enter(struct mysem *a){
+	
+	int mem = 1;
+	
+	while(mem == 1){
+	
+		while(a->lock == 1){}
 	asm(
-	"movl (%2) ,%%eax;"
-	"xchgl %%eax,(%0);"
-	"movl %%eax, (%1);"
-	: "=g"(lock),"=m"(mem)
+	"movl %2 ,%%eax;"
+	"xchgl %%eax,%0;"
+	"movl %%eax, %1;"
+	: "=g"(a->lock),"=r"(mem)
 	:"m"(mem));
 	printf("block ");
 	}
+	
 	printf("passed ");
-	return 0;
 	}
 	
-int * mysem_open(){
-	int *lock = (int *)malloc(sizeof(int));
-	*lock = 0;
-	return lock;
+	void my_init(struct mysem *a){
+	int *lok = (int *)malloc(sizeof(int));
+	lok[0] = 0;
+	a->lock = *lok;
+	
+	
+	
 	}
 	
-int * mysem_init(){
-	int *mem = (int *) malloc(sizeof(int));
-	*mem = 1;
-	return mem;
+	void wait(struct mysem *a){
+	
+	enter(a);
 	}
 	
-int mysem_wait(int *lock,int *mem){
-	enter(lock,mem);
-	return 0;
+	void post(struct mysem *a){
+	leave(a);
 	}
 	
-int mysem_post(int *lock,int *mem){
-	leave(lock,mem);
-	return 0;
-	}
-void free(int* mem){
-	mem = NULL;}
-	
-int mysem_destroy(int *lock,int *mem){
-	free(mem);
-	return 0;
-	}
-
-int mysem_close(int *lock){
-	free(lock);
-	return 0;
-	}
