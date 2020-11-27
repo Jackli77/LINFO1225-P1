@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "mysem.h"
+#include <semaphore.h>
 #include <unistd.h>
 
 int USED = 1;
@@ -11,7 +11,7 @@ int FREE = 0;
 int PHILOSOPHES ;
 
 
-struct mysem *baguette;
+sem_t *baguette;
 
 
 //fonction manger
@@ -39,16 +39,16 @@ while(count <100000){
 	
 	//si gaucher pour eviter les deadlock
 	if(left<right){
-		wait(&baguette[left]);
+		sem_wait(&baguette[left]);
 		
-		wait(&baguette[right]);
+		sem_wait(&baguette[right]);
 		
 		
 		}
 	else{
-		wait(&baguette[right]);
+		sem_wait(&baguette[right]);
 		
-		wait(&baguette[left]);
+		sem_wait(&baguette[left]);
 		
 		
 		}
@@ -56,8 +56,8 @@ while(count <100000){
 	mange(*id);
 	count ++;
 	
-	post(&baguette[left]);
-	post(&baguette[right]);
+	sem_post(&baguette[left]);
+	sem_post(&baguette[right]);
 	
 	
 	}
@@ -76,7 +76,7 @@ int main (int argc, char *argv[]){
     
 	pthread_t phil[PHILOSOPHES];
 	int id[PHILOSOPHES];
-	baguette = malloc(PHILOSOPHES*sizeof(struct mysem));
+	baguette = malloc(PHILOSOPHES*sizeof(sem_t));
 	
 	
 	if(PHILOSOPHES == 1){
@@ -86,7 +86,7 @@ int main (int argc, char *argv[]){
 	
 	
 	for(int i= 0 ;i <PHILOSOPHES;i++){
-	my_init(&(baguette[i]));
+	sem_init(&(baguette[i]),0,1);
 
 	id[i] = i;
 	
