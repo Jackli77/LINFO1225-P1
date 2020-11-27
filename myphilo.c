@@ -17,7 +17,7 @@ struct mysem *baguette;
 
 //fonction manger
 void mange(int id){
-	printf("mange");
+	
 	
 
 	
@@ -35,7 +35,7 @@ int left = *id;
 int right = (left+1)% PHILOSOPHES;
 
 
-while(count <100000){
+while(count <1000000){
 	
 	
 	//si gaucher pour eviter les deadlock
@@ -81,13 +81,13 @@ int main (int argc, char *argv[]){
 	
 	
 	if(PHILOSOPHES == 1){
-		for(int i = 0 ; i< 100000;i++){
+		for(int i = 0 ; i< 1000000;i++){
 			mange(1);}
 			return 1 ;}
 	
 	
 	for(int i= 0 ;i <PHILOSOPHES;i++){
-	my_init(&(baguette[i]));
+	my_init(&(baguette[i]),1);
 
 	id[i] = i;
 	
