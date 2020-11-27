@@ -30,12 +30,12 @@ struct mysem{
 	"movl %2 ,%%eax;"
 	"xchgl %%eax,%0;"
 	"movl %%eax, %1;"
-	: "=g"(a->lock),"=r"(mem)
+	: "=m"(a->lock),"=r"(mem)
 	:"m"(mem));
-	printf("block ");
+	
 	}
 	
-	printf("passed ");
+	
 	}
 	
 	void my_init(struct mysem *a){
