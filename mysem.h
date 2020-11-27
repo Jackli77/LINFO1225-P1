@@ -6,42 +6,46 @@
 #include<string.h>
 #include<stdbool.h>
 struct mysem{
-	int lock;};
-	
+	int *buff;};
+int len;
 	void leave(struct mysem *a){
-	
+	for(int i = 0; i<len;i++){
 	int mem = 0;
 	asm(
 	"movl %0, %%eax;"
 	"xchgl %%eax,%1;"
 	"movl %%eax,%0;"
-	:"=g"(a->lock),"=m"(mem)
-	);
+	:"=r"(a->buff[i]),"=m"(mem)
+	);}
 	}
 	
 	void enter(struct mysem *a){
-	
+	for(int i = 0; i< len;i++){
 	int mem = 1;
 	
 	while(mem == 1){
 	
-		while(a->lock == 1){}
+		while(a->buff[i] == 1){}
 	asm(
 	"movl %2 ,%%eax;"
 	"xchgl %%eax,%0;"
 	"movl %%eax, %1;"
-	: "=m"(a->lock),"=r"(mem)
+	: "=m"(a->buff[i]),"=r"(mem)
 	:"m"(mem));
 	
+	}}
+	
+	
+
 	}
 	
-	
-	}
-	
-	void my_init(struct mysem *a){
+	void my_init(struct mysem *a,int N){
+	len =N;
+	a->buff = (int *)malloc(N*sizeof(int));
 	int *lok = (int *)malloc(sizeof(int));
 	lok[0] = 0;
-	a->lock = *lok;
+	for(int i = 0; i<N; i++){
+	a->buff[i] = *lok;}
 	
 	
 	
