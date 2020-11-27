@@ -1,8 +1,8 @@
 #include <stdio.h>
 int lock = 0;
 
-int leave(int mem){
-	
+void leave(){
+	int mem = 0;
 	asm(
 	"movl %0, %%eax;"
 	"xchgl %%eax,%1;"
@@ -12,10 +12,11 @@ int leave(int mem){
 	);
 	
 	
-	return mem;
+	
 	}
 	
-int enter(int mem){
+void enter(){
+	int mem = 1;
 	while(mem == 1){
 		while(lock == 1){}
 	asm(
@@ -27,5 +28,5 @@ int enter(int mem){
 	printf("block ");
 	}
 	printf("passed ");
-	return mem;
+
 	}
