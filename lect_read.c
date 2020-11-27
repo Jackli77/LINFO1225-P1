@@ -1,12 +1,12 @@
 
-#include "mysem.h"
+#include<semaphore.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
 #include<pthread.h>
 // initialisation des variables globales
-struct mysem block,readmutex,readcount,writemutex,writecount;
+sem_t block,readmutex,readcount,writemutex,writecount;
 
 int writercount;
 int readercount;
@@ -32,22 +32,20 @@ void lecture(){
 void reader(void* param)
 {
 	while(count2 < 2560){
-	wait(&block);
+	sem_wait(&block);
 	
-	wait(&readmutex);
-	wait(&readcount);
-	fprintf(stdout,"coucou ");
-	fflush(stdout);
+	sem_wait(&readmutex);
+	sem_wait(&readcount);
 	readercount ++;
-	if(readercount == 1){wait(&writemutex);}
-	post(&readcount);
-	post(&readmutex);
-	post(&block);
+	if(readercount == 1){sem_wait(&writemutex);}
+	sem_post(&readcount);
+	sem_post(&readmutex);
+	sem_post(&block);
 	lecture();
-	wait(&readcount);
+	sem_wait(&readcount);
 	readercount --;
-	if(readercount ==0){post(&writemutex);}
-	post(&readcount);
+	if(readercount ==0){sem_post(&writemutex);}
+	sem_post(&readcount);
 
     }
    
@@ -56,17 +54,17 @@ void reader(void* param)
 void writer(void* param)
 {
 	while(count1 < 640){
-	wait(&writecount);
+	sem_wait(&writecount);
 	writercount++;
-	if(writercount == 1){wait(&readmutex);}
-	post(&writecount);
-	wait(&writemutex);
+	if(writercount == 1){sem_wait(&readmutex);}
+	sem_post(&writecount);
+	sem_wait(&writemutex);
 	ecrire();
-	post(&writemutex);
-	wait(&writecount);
+	sem_post(&writemutex);
+	sem_wait(&writecount);
 	writercount --;
-	if(writercount == 0){post(&readmutex);}
-	post(&writecount);
+	if(writercount == 0){sem_post(&readmutex);}
+	sem_post(&writecount);
     //On a fini d'écrire
     
     
@@ -96,11 +94,11 @@ int main(int argc, char *argv[])
 		for (int i = 0; i<2560;i++){
 			lecture();}
 		return 0;}
-    my_init(&writecount);
-    my_init(&writemutex);
-    my_init(&readcount);
-    my_init(&readmutex);
-	my_init(&block);
+    sem_init(&writecount,0,1);
+    sem_init(&writemutex,0,1);
+    sem_init(&readcount,0,1);
+    sem_init(&readmutex,0,1);
+	sem_init(&block,0,1);
 	
     pthread_t writerthreads[ecrivains];
     pthread_t readerthreads[lecteurs];
@@ -130,3 +128,4 @@ int main(int argc, char *argv[])
 	
  
 }
+
