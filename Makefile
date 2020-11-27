@@ -15,6 +15,8 @@ myread : mylect_read.c
 
 tatas: tatas.c
 	$(CC) $(CFlags) -o tatas tatas.c -lm -lpthread
+tas: tas.c
+	$(CC) $(CFlags) -o tas tas.c -lm -lpthread
 
 all: philo.c prodcons.c
 	make philo
@@ -23,6 +25,7 @@ all: philo.c prodcons.c
 	make myphilo
 	make myread
 	make tatas
+	make tas
 
 clean:
 	rm -f *.o
@@ -32,3 +35,4 @@ clean:
 	rm -f myread
 	rm -f read
 	rm -f tatas
+	rm -f tas
