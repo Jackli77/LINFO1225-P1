@@ -13,6 +13,7 @@ int PHILOSOPHES ;
 
 
 struct csem *baguette;
+struct csem table;
 
 
 //fonction manger
@@ -37,7 +38,7 @@ int right = (left+1)% PHILOSOPHES;
 
 while(count <1000000){
 	
-	
+	wait(&table);
 	//si gaucher pour eviter les deadlock
 	if(left<right){
 		wait(&baguette[left]);
@@ -59,6 +60,7 @@ while(count <1000000){
 	
 	post(&baguette[left]);
 	post(&baguette[right]);
+	post(&table);
 	
 	
 	}
@@ -85,8 +87,9 @@ int main (int argc, char *argv[]){
 			mange(1);}
 			return 1 ;}
 	
-	
+	c_init(&table,PHILOSOPHES-1);
 	for(int i= 0 ;i <PHILOSOPHES;i++){
+		
 	c_init(&(baguette[i]),1);
 
 	id[i] = i;

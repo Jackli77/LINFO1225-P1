@@ -12,11 +12,11 @@ int PHILOSOPHES ;
 
 
 sem_t *baguette;
-
+sem_t table;
 
 //fonction manger
 void mange(int id){
-	printf("mange");
+	
 	
 
 	
@@ -35,6 +35,7 @@ int right = (left+1)% PHILOSOPHES;
 
 
 while(count <100000){
+	sem_wait(&table);
 	
 	
 	//si gaucher pour eviter les deadlock
@@ -58,6 +59,7 @@ while(count <100000){
 	
 	sem_post(&baguette[left]);
 	sem_post(&baguette[right]);
+	sem_post(&table);
 	
 	
 	}
@@ -91,6 +93,7 @@ int main (int argc, char *argv[]){
 	id[i] = i;
 	
 	}
+	sem_init(&table,0,PHILOSOPHES-1);
 	
 	for(int i= 0;i<PHILOSOPHES;i++){
 		
