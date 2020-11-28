@@ -13,7 +13,8 @@ Makefile : Permet de lancer les programmes et de clean les fichiers résiduels.\
 lect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de la librairie POSIX.\
 mylect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de mysem.h.\
 matplot_tuto(1).py : Trace les graphiques de performance depuis les données csv.\
-mysem.h : Implémente des sémaphores à l'aide de l'inline assembly.\
+mysem.h : Implémente des sémaphores binaires à l'aide de l'inline assembly.\
+semsem.h : Implémente les counting sémaphores.\
 philo.c : Résout le problème des philosophes à l'aide des sémaphores de la librairie POSIX.\
 myphilo.c : Résout le problème des philososphes à l'aide des sémaphores de mysem.h.\
 prodcons.c : Résout le problème des producteurs consommateurs à l'aide des sémaphores de la librairie POSIX.\
