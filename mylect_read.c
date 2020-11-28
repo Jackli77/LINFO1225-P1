@@ -1,112 +1,133 @@
 
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "mysem.h"
-#include <unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<string.h>
+#include<pthread.h>
+// initialisation des variables globales
+struct mysem block,readmutex,readcount,writemutex,writecount;
 
-int USED = 1;
-int FREE = 0;
-
-int PHILOSOPHES ;
-
-
-struct mysem *baguette;
+int writercount;
+int readercount;
+int count1 = 0;
+int count2 = 0;
 
 
-//fonction manger
-void mange(int id){
+//simulation ecriture et lecture
+void ecrire(){
 	
 	
-
+	//on incrémente le conteur d'écriture et lecture
 	
+	while(rand() > RAND_MAX/10000);
+	count1++;
 	}
-//le thread rentre dans philosophe avec un id	
- void* philosophe(void * arg){
-	 	
-int count = 0;
-int *id = (int *) arg;
+void lecture(){
 
 
-
-int left = *id;
-
-int right = (left+1)% PHILOSOPHES;
-
-
-while(count <1000000){
 	
 	
-	//si gaucher pour eviter les deadlock
-	if(left<right){
-		wait(&baguette[left]);
-		
-		wait(&baguette[right]);
-		
-		
-		}
-	else{
-		wait(&baguette[right]);
-		
-		wait(&baguette[left]);
-		
-		
-		}
-	//les philosophes attendent les deux baguettes libre puis mangent 
-	mange(*id);
-	count ++;
+	while(rand() > RAND_MAX/10000);
+	count2++;}
 	
-	post(&baguette[left]);
-	post(&baguette[right]);
+
+void reader(void* param)
+{
+	while(count2 < 2560){
+	wait(&block);
 	
-	
-	}
-	return (NULL);
+	wait(&readmutex);
+	wait(&readcount);
+	readercount ++;
+	if(readercount == 1){wait(&writemutex);}
+	post(&readcount);
+	post(&readmutex);
+	post(&block);
+	lecture();
+	wait(&readcount);
+	readercount --;
+	if(readercount ==0){post(&writemutex);}
+	post(&readcount);
+
+    }
+   
 }
 
-int main (int argc, char *argv[]){
-	PHILOSOPHES = 8;
-	if(argc == 2){
-		if(atoi(argv[1])>0){
-        		PHILOSOPHES = atoi(argv[1]);
-		}
-    	}
-	
-	
+void writer(void* param)
+{
+	while(count1 < 640){
+	wait(&writecount);
+	writercount++;
+	if(writercount == 1){wait(&readmutex);}
+	post(&writecount);
+	wait(&writemutex);
+	ecrire();
+	post(&writemutex);
+	wait(&writecount);
+	writercount --;
+	if(writercount == 0){post(&readmutex);}
+	post(&writecount);
+    //On a fini d'écrire
     
-	pthread_t phil[PHILOSOPHES];
-	int id[PHILOSOPHES];
-	baguette = malloc(PHILOSOPHES*sizeof(struct mysem));
-	
-	
-	if(PHILOSOPHES == 1){
-		for(int i = 0 ; i< 1000000;i++){
-			mange(1);}
-			return 1 ;}
-	
-	
-	for(int i= 0 ;i <PHILOSOPHES;i++){
-	my_init(&(baguette[i]));
+    
+    }
+    
+    
+}
 
-	id[i] = i;
+int main(int argc, char *argv[])
+{
+    int lecteurs = 2;
+    int ecrivains = 2;
+    
+     //Specifie le nombre de threads demandés par l'utilisateur, le nombre de threads par défaut est 2 et 4.
+   
+    if (argc == 3){
+        if (atoi(argv[1]) > 0) {
+            lecteurs = atoi(argv[1]);
+        }
+        if (atoi(argv[2]) >= 0) {
+            ecrivains = atoi(argv[2]);
+        }
+    }
+	readercount = lecteurs;
+	writercount = ecrivains;
+	if(ecrivains == 0){
+		for (int i = 0; i<2560;i++){
+			lecture();}
+		return 0;}
+    my_init(&writecount,1);
+    my_init(&writemutex,1);
+    my_init(&readcount,1);
+    my_init(&readmutex,1);
+	my_init(&block,1);
 	
-	}
+    pthread_t writerthreads[ecrivains];
+    pthread_t readerthreads[lecteurs];
+    
+			
+   
+   
+	for(int i = 0; i<ecrivains; i++){
+	pthread_create(&writerthreads[i],NULL, (void*)writer,NULL);}
 	
-	for(int i= 0;i<PHILOSOPHES;i++){
-		
-		pthread_create(&(phil[i]),NULL,&philosophe,&(id[i]));
-		
+  for(int i = 0; i<lecteurs; i++){
+		pthread_create(&readerthreads[i],NULL, (void*)reader,NULL);
 		}
+
+	for(int i =0;i<ecrivains;i++)
+		{
+			
+			pthread_join(writerthreads[i],NULL);
+		}
+  
+    for(int i =0;i<lecteurs;i++)
+    {
+        
+        pthread_join(readerthreads[i],NULL);
+    }
+    
 	
-		
-		
-	for(int i = 0;i<PHILOSOPHES;i++){
-		pthread_join(phil[i],NULL);
-		
-		}}
-		
-	
-		
-	
-	
+ 
+}
