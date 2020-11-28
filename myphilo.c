@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "mysem.h"
+#include "semsem.h"
 #include <unistd.h>
 
 int USED = 1;
@@ -12,7 +12,7 @@ int FREE = 0;
 int PHILOSOPHES ;
 
 
-struct mysem *baguette;
+struct csem *baguette;
 
 
 //fonction manger
@@ -87,7 +87,7 @@ int main (int argc, char *argv[]){
 	
 	
 	for(int i= 0 ;i <PHILOSOPHES;i++){
-	my_init(&(baguette[i]),1);
+	c_init(&(baguette[i]),1);
 
 	id[i] = i;
 	
