@@ -11,7 +11,7 @@ prodcons: prodcons.c
 read: lect_read.c
 	$(CC) $(CFlags) -o read lect_read.c -lm -lpthread
 myread : mylect_read.c
-	$(CC) $(CFlags) -o read mylect_read.c -lm -lpthread
+	$(CC) $(CFlags) -o myread mylect_read.c -lm -lpthread
 
 tatas: tatas.c
 	$(CC) $(CFlags) -o tatas tatas.c -lm -lpthread

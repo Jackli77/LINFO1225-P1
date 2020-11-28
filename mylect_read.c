@@ -1,12 +1,12 @@
 
-#include "mysem.h"
+#include"semsem.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
 #include<pthread.h>
 // initialisation des variables globales
-struct mysem block,readmutex,readcount,writemutex,writecount;
+struct csem block,readmutex,readcount,writemutex,writecount;
 
 int writercount;
 int readercount;
@@ -97,11 +97,11 @@ int main(int argc, char *argv[])
 		for (int i = 0; i<2560;i++){
 			lecture();}
 		return 0;}
-    my_init(&writecount,1);
-    my_init(&writemutex,1);
-    my_init(&readcount,1);
-    my_init(&readmutex,1);
-	my_init(&block,1);
+    c_init(&writecount,1);
+    c_init(&writemutex,1);
+    c_init(&readcount,1);
+    c_init(&readmutex,1);
+	c_init(&block,1);
 	
     pthread_t writerthreads[ecrivains];
     pthread_t readerthreads[lecteurs];
