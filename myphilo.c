@@ -42,7 +42,6 @@ while(count <1000000){
 	//si gaucher pour eviter les deadlock
 	if(left<right){
 		wait(&baguette[left]);
-		
 		wait(&baguette[right]);
 		
 		
@@ -79,7 +78,7 @@ int main (int argc, char *argv[]){
     
 	pthread_t phil[PHILOSOPHES];
 	int id[PHILOSOPHES];
-	baguette = malloc(PHILOSOPHES*sizeof(struct mysem));
+	baguette = malloc(PHILOSOPHES*sizeof(struct csem));
 	
 	
 	if(PHILOSOPHES == 1){
