@@ -35,7 +35,7 @@ int right = (left+1)% PHILOSOPHES;
 
 
 while(count <100000){
-	sem_wait(&table);
+
 	
 	
 	//si gaucher pour eviter les deadlock
@@ -59,7 +59,7 @@ while(count <100000){
 	
 	sem_post(&baguette[left]);
 	sem_post(&baguette[right]);
-	sem_post(&table);
+	
 	
 	
 	}
