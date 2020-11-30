@@ -38,7 +38,7 @@ int right = (left+1)% PHILOSOPHES;
 
 while(count <1000000){
 	
-	wait(&table);
+	
 	//si gaucher pour eviter les deadlock
 	if(left<right){
 		wait(&baguette[left]);
@@ -59,7 +59,7 @@ while(count <1000000){
 	
 	post(&baguette[left]);
 	post(&baguette[right]);
-	post(&table);
+	
 	
 	
 	}
