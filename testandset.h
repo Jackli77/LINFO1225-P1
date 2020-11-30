@@ -25,6 +25,6 @@ void enter(){
 	:"m"(mem));
 	
 	}
-	printf("%d",lock);
+	
 	
 	}
