@@ -25,8 +25,8 @@ void enter(){
 	"movl %%eax, %1;"
 	: "=g"(lock),"=m"(mem)
 	:"m"(mem));
-	printf("block ");
+
 	}
-	printf("passed ");
+	
 
 	}
