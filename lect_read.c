@@ -15,7 +15,7 @@ int count2 = 0;
 
 
 //simulation ecriture et lecture
-void ecrire(){printf("ecrire ");
+void ecrire(){
 	
 	//on incrémente le conteur d'écriture et lecture
 	
@@ -23,7 +23,7 @@ void ecrire(){printf("ecrire ");
 	count1++;
 	}
 void lecture(){
-	printf("lire ");
+	
 	
 	while(rand() > RAND_MAX/10000);
 	count2++;}
