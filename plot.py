@@ -15,6 +15,8 @@ read = pd.read_csv("read.csv")
 myread = pd.read_csv("myread.csv")
 tas = pd.read_csv("tas.csv")
 tatas = pd.read_csv("tatas.csv")
+prodcons = pd.read_csv("prodcons.csv")
+myprodcons = pd.read_csv("myprodcons.csv")
 threads_philo = philo.nb_coeurs.values 
 temps_philo = philo.temps.values 
 temps_myphilo = myphilo.temps.values
@@ -23,7 +25,10 @@ temps_read = read.temps.values
 temps_myread = myread.temps.values
 threads_tas = tas.nb_coeurs.values 
 temps_tas = tas.temps.values
-temps_tatas = tatas.temps.values 
+temps_tatas = tatas.temps.values
+threads_prod = prodcons.nb_coeurs.values 
+temps_prod = prodcons.temps.values
+temps_myprod = myprodcons.temps.values 
 def philosophe(temps,temps2,threads):
     T_b = [0]
     T_a = [0]
@@ -70,21 +75,27 @@ def philosophe(temps,temps2,threads):
     plt.show()
     plt.close()
 
-def producteurs(temps,threads):
-    T_b = []
-    T_m = [prodcons.nbcoeurs.values[0]]
+def producteurs(temps,temps2,threads):
+    T_b = [0]
+    T_a = [0]
+    T_m = [0,prodcons.nbcoeurs.values[0]]
+    e = [0]
     for i in range(1,len(prodcons.nbcoeurs.values)):
         if prodcons.nbcoeurs.values[0] == prodcons.nbcoeurs.values[i]:
             break
         T_m.append(prodcons.nbcoeurs.values[i])
-    for i in range(0,len(T_m)):
+    for i in range(0,len(T_m)-1):
         j = i
         arr = []
+        arr2=[]
         while j < len(temps):
             arr.append(temps[j])
-            j += len(T_m)
+            arr2.append(temps2[j])
+            j += len(T_m)-1
         T_b.append(np.mean(arr))
-    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-")
+        T_a.append(np.mean(arr2))
+        e.append(np.std(arr))
+    plt.errorbar(T_m, T_b,e, color="blue", linewidth=1.0, linestyle="-")
     plt.xlim(1,len(T_m))
     plt.xticks(np.linspace(1,len(T_m),len(T_m)))
     plt.xlabel('Threads')
@@ -92,6 +103,18 @@ def producteurs(temps,threads):
     plt.title('mesure de performance producteurs consommateurs')
     plt.grid(True)
     plt.savefig("prodcons.png")
+    plt.show()
+    plt.close()    
+    plt.plot(T_m, T_b, color="blue", linewidth=1.0, linestyle="-",label = "producteur consommateur")
+    plt.plot(T_m, T_a, color="red", linewidth=1.0, linestyle="-",label = "my producteur")
+    plt.legend()
+    plt.xlim(1,len(T_m))
+    plt.xticks(np.linspace(1,len(T_m),len(T_m)))
+    plt.xlabel('Threads')
+    plt.ylabel('Temps moyen')
+    plt.title('mesure de performance producteurs consommateurs')
+    plt.grid(True)
+    plt.savefig("prodcons2.png")
     plt.show()
     plt.close()
 def reader(temps, temps2,threads):
