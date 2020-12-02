@@ -10,14 +10,13 @@ echo "nb_coeurs,temps" >prodcons.csv
 echo "nb_coeurs,temps" >myprodcons.csv
 echo "nb_coeurs,temps" >tas.csv
 echo "nb_coeurs,temps" >tatas.csv
+make clean -s 
+make all -s
 for ((i=1; i<=RUNS; i++))
 do
   
     for((n=1; n<=NTHREAD*2; n++))
     do
-       
-	 make clean -s 
-	 make all -s
 
 	philoO=$(/usr/bin/time -f %e ./philo ${n} -s 2>&1)
 	echo ${n},${philoO} >>philo.csv
@@ -29,7 +28,7 @@ do
 	echo ${n},${myreado} >>myread.csv
 	prodo=$(/usr/bin/time -f %e ./prodcons ${n} $n -s 2>&1)
 	echo ${n},${prodo} >>prodcons.csv
-	myprodo=$(/usr/bin/time -f %e ./myprocons ${n} $n -s 2>&1)
+	myprodo=$(/usr/bin/time -f %e ./myprodcons ${n} $n -s 2>&1)
 	echo ${n},${myprodo} >>myprodcons.csv
 	taso=$(/usr/bin/time -f %e ./tas ${n} -s 2>&1)
 	echo ${n},${taso} >>tas.csv

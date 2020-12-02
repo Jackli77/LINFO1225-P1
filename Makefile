@@ -7,6 +7,9 @@ myphilo: myphilo.c
 
 prodcons: prodcons.c
 	$(CC) $(CFlags) -o prodcons prodcons.c -lm -lpthread
+	
+myprodcons: myprodcons.c
+	$(CC) $(CFlags) -o myprodcons myprodcons.c -lm -lpthread
 
 read: lect_read.c
 	$(CC) $(CFlags) -o read lect_read.c -lm -lpthread
@@ -18,9 +21,10 @@ tatas: tatas.c
 tas: tas.c
 	$(CC) $(CFlags) -o tas tas.c -lm -lpthread
 
-all: philo.c prodcons.c
+all:
 	make philo
 	make prodcons
+	make myprodcons
 	make read
 	make myphilo
 	make myread
@@ -28,11 +32,13 @@ all: philo.c prodcons.c
 	make tas
 
 clean:
-	rm -f *.o
+	rm -f *.csv
 	rm -f prodcons
+	rm -f myprodcons
 	rm -f philo
 	rm -f myphilo
 	rm -f myread
 	rm -f read
 	rm -f tatas
 	rm -f tas
+
