@@ -21,6 +21,8 @@ tatas: tatas.c
 tas: tas.c
 	$(CC) $(CFlags) -o tas tas.c -lm -lpthread
 test:
+	make clean
+	make all
 	./script.sh
 	python3 plot.py
 

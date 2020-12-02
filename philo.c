@@ -5,8 +5,6 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-int USED = 1;
-int FREE = 0;
 
 int PHILOSOPHES ;
 
