@@ -78,12 +78,12 @@ def philosophe(temps,temps2,threads):
 def producteurs(temps,temps2,threads):
     T_b = [0]
     T_a = [0]
-    T_m = [0,prodcons.nbcoeurs.values[0]]
+    T_m = [0,prodcons.nb_coeurs.values[0]]
     e = [0]
-    for i in range(1,len(prodcons.nbcoeurs.values)):
-        if prodcons.nbcoeurs.values[0] == prodcons.nbcoeurs.values[i]:
+    for i in range(1,len(prodcons.nb_coeurs.values)):
+        if prodcons.nb_coeurs.values[0] == prodcons.nb_coeurs.values[i]:
             break
-        T_m.append(prodcons.nbcoeurs.values[i])
+        T_m.append(prodcons.nb_coeurs.values[i])
     for i in range(0,len(T_m)-1):
         j = i
         arr = []
