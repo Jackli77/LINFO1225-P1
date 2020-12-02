@@ -32,6 +32,7 @@ all:
 	make tas
 
 clean:
+	rm -f *.csv
 	rm -f prodcons
 	rm -f myprodcons
 	rm -f philo
