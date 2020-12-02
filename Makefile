@@ -7,7 +7,7 @@ myphilo: myphilo.c
 
 prodcons: prodcons.c
 	$(CC) $(CFlags) -o prodcons prodcons.c -lm -lpthread
-	
+
 myprodcons: myprodcons.c
 	$(CC) $(CFlags) -o myprodcons myprodcons.c -lm -lpthread
 
@@ -20,6 +20,9 @@ tatas: tatas.c
 	$(CC) $(CFlags) -o tatas tatas.c -lm -lpthread
 tas: tas.c
 	$(CC) $(CFlags) -o tas tas.c -lm -lpthread
+test:
+	./script.sh
+	python3 plot.py
 
 all:
 	make philo
