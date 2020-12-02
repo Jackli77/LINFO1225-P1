@@ -12,7 +12,7 @@ Ce repertoire a pour but de tester les performances de programmes multithreadés
 Makefile : Permet de lancer les programmes et de clean les fichiers résiduels.\
 lect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de la librairie POSIX.\
 mylect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de mysem.h.\
-matplot_tuto(1).py : Trace les graphiques de performance depuis les données csv.\
+plot.py : Trace les graphiques de performance depuis les données csv.\
 mysem.h : Implémente des sémaphores binaires à l'aide de l'inline assembly.\
 semsem.h : Implémente les counting sémaphores.\
 philo.c : Résout le problème des philosophes à l'aide des sémaphores de la librairie POSIX.\
@@ -20,9 +20,11 @@ myphilo.c : Résout le problème des philososphes à l'aide des sémaphores de m
 prodcons.c : Résout le problème des producteurs consommateurs à l'aide des sémaphores de la librairie POSIX.\
 myprodcons.c : Résout le problème des producteurs consimmateurs à l'aide des sémaphores de mysem.h.\
 script.sh : Lance les problèmes et effectue les tests de performance.\
+tatas.c : Implemente test and test and set.\
 tatas.h : Implemente test and test and set.\
 test.c : Teste les programmes test and set.\
-testandset.h  : Impemente test and set.\
+tas.c : Implemente test and set.\
+testandset.h  : Implemente test and set.\
 
 ### Pré-requis
 
