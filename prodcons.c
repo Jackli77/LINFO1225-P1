@@ -57,8 +57,8 @@ void consumer(void) {
 
 int main(int argc, char *argv[]) {
     //Specifie le nombre de threads demandés par l'utilisateur, le nombre de threads par défaut est 2.
-    int Nprod = 2;
-    int Ncons = 2;
+    int Nprod = 1;
+    int Ncons = 1;
     if (argc == 3){
         if (atoi(argv[1]) > 0) {
             Nprod = atoi(argv[1]);
