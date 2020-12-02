@@ -96,6 +96,8 @@ int main(int argc, char *argv[])
 	if(ecrivains == 0){
 		for (int i = 0; i<2560;i++){
 			lecture();}
+		for(int i = 0; i<640;i++){
+			ecrire();}
 		return 0;}
     c_init(&writecount,1);
     c_init(&writemutex,1);

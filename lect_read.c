@@ -93,6 +93,8 @@ int main(int argc, char *argv[])
 	if(ecrivains == 0){
 		for (int i = 0; i<2560;i++){
 			lecture();}
+		for(int i = 0; i<640;i++){
+			ecrire();}
 		return 0;}
     sem_init(&writecount,0,1);
     sem_init(&writemutex,0,1);
