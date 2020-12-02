@@ -1,7 +1,8 @@
 #!/bin/bash
 RUNS=5
 NTHREAD=$(nproc)
-
+make clean -s 
+make all -s
 echo "nb_coeurs,temps" >philo.csv
 echo "nb_coeurs,temps" >myphilo.csv
 echo "nb_coeurs,temps" >read.csv
@@ -10,8 +11,6 @@ echo "nb_coeurs,temps" >prodcons.csv
 echo "nb_coeurs,temps" >myprodcons.csv
 echo "nb_coeurs,temps" >tas.csv
 echo "nb_coeurs,temps" >tatas.csv
-make clean -s 
-make all -s
 for ((i=1; i<=RUNS; i++))
 do
   
