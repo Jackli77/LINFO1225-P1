@@ -17,13 +17,13 @@ tas = pd.read_csv("tas.csv")
 tatas = pd.read_csv("tatas.csv")
 prodcons = pd.read_csv("prodcons.csv")
 myprodcons = pd.read_csv("myprodcons.csv")
-threads_philo = philo.nb_coeurs.values 
+threads_philo = philo.nbcoeurs.values 
 temps_philo = philo.temps.values 
 temps_myphilo = myphilo.temps.values
-threads_read = read.nb_coeurs.values 
+threads_read = read.nbcoeurs.values 
 temps_read = read.temps.values
 temps_myread = myread.temps.values
-threads_tas = tas.nb_coeurs.values 
+threads_tas = tas.nbcoeurs.values 
 temps_tas = tas.temps.values
 temps_tatas = tatas.temps.values
 threads_prod = prodcons.nb_coeurs.values 
@@ -195,5 +195,6 @@ def testing(temps,temps2,threads):
     plt.close()
 
 philosophe(temps_philo,temps_myphilo,threads_philo)
+producteurs(temps_prod,temps_myprod,threads_prod)
 reader(temps_read,temps_myread,threads_read)
 testing(temps_tas,temps_tatas,threads_tas)
