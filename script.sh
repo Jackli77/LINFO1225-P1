@@ -16,8 +16,9 @@ do
   
     for((n=1; n<=NTHREAD*2; n++))
     do
-	up=($n-$n%2)/2
-	down=($n-$n%2)/2
+	up=$(((${n}-${n}%2)/2))
+	down=(n-n%2)/2
+	echo $up
 	philoO=$(/usr/bin/time -f %e ./philo ${n} -s 2>&1)
 	echo ${n},${philoO} >>philo.csv
 	myphiloO=$(/usr/bin/time -f %e ./myphilo ${n} -s 2>&1)
