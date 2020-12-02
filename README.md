@@ -8,7 +8,7 @@ Lien vers le répo : https://github.com/Jackli77/LINFO1225_P1
 Ce repertoire a pour but de tester les performances de programmes multithreadés pour un nombre différent de thread  et de donner les résultats sous une forme graphique.
 
 ### Contenu du repertoire
-
+Rapport_Projet_threads.pdf: Un rapport de 5 pages sur le projet reprenant nos plots et nos observations
 Makefile : Permet de lancer les programmes et de clean les fichiers résiduels.\
 lect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de la librairie POSIX.\
 mylect_read.c : Résout le problème des lecteurs écrivians a l'aide des sémaphores de mysem.h.\
@@ -25,6 +25,7 @@ tatas.h : Implemente test and test and set.\
 test.c : Teste les programmes test and set.\
 tas.c : Implemente test and set.\
 testandset.h  : Implemente test and set.\
+
 
 ### Pré-requis
 
