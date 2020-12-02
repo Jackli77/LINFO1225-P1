@@ -15,20 +15,29 @@ struct csem full;
 int take = 0;
 int give = 0;
 int buffer[N];
+int iter = 0;
+int pdced = 0;
+int csmed = 0;
 
 void insert_item() {
-    buffer[give] = rand();
-    give = (1+give)%8;
+    buffer[pdced%N] = rand();
+    pdced++;
 }
 
 void remove_item() {
-    take = (1+take)%8;
+    buffer[csmed%N] = 0;
+    csmed++;
+    while (rand() > RAND_MAX / 10000){}
 }
 
 void producer(void) {
-    for(int i = 0;i<=MAX;i++) {
+    while (pdced < MAX) {
         post(&empty); // attente d'une place libre
         wait(&mutex);// section critique
+        if(pdced == MAX){
+			post(&mutex);
+			post(&full);
+		}
         insert_item();
         post(&mutex);
         post(&full); // une place remplie en plus  
@@ -36,11 +45,14 @@ void producer(void) {
 }
 
 void consumer(void) {
-    for(int i = 0;i<=MAX;i++) {
+    while(csmed < MAX) {
         wait(&full); // attente d'une place remplie
         wait(&mutex);// section critique
+        if(csmed == MAX){
+			post(&mutex);
+			post(&empty);
+		}
         remove_item();
-        while (rand() > RAND_MAX / 10000){}
         post(&mutex);
         post(&empty); // une place libre en plus
     }

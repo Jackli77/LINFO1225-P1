@@ -12,23 +12,29 @@
 pthread_mutex_t mutex;
 sem_t empty;
 sem_t full;
-int take = 0;
-int give = 0;
 int buffer[N];
+int pdced = 0;
+int csmed = 0;
 
 void insert_item() {
-    buffer[give] = rand();
-    give = (1+give)%8;
+    buffer[pdced%N] = rand();
+    pdced++;
 }
 
 void remove_item() {
-    take = (1+take)%8;
+	buffer[csmed%N] = 0;
+    csmed++;
+    while (rand() > RAND_MAX / 10000){}
 }
 
 void producer(void) {
-    for(int i = 0;i<=MAX;i++) {
+    while(pdced < MAX) {
         sem_wait(&empty); // attente d'une place libre
         pthread_mutex_lock(&mutex);// section critique
+        if(pdced == MAX){
+			pthread_mutex_unlock(&mutex);
+			sem_post(&full);
+		}
         insert_item();
         pthread_mutex_unlock(&mutex);
         sem_post(&full); // une place remplie en plus  
@@ -36,11 +42,14 @@ void producer(void) {
 }
 
 void consumer(void) {
-    for(int i = 0;i<=MAX;i++) {
+    while(csmed < MAX) {
         sem_wait(&full); // attente d'une place remplie
         pthread_mutex_lock(&mutex);// section critique
+        if(csmed == MAX){
+			pthread_mutex_unlock(&mutex);
+			sem_post(&empty);
+		}
         remove_item();
-        while (rand() > RAND_MAX / 10000){}
         pthread_mutex_unlock(&mutex);
         sem_post(&empty); // une place libre en plus
     }
