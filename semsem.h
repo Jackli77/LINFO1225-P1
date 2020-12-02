@@ -23,7 +23,6 @@ struct csem{
 		mywait(&(a->B1));
 		a->count--;
 		if(a->count<0){
-			printf("block ");
 			mypost(&(a->B1));
 			mywait(&(a->B2));
 		}
