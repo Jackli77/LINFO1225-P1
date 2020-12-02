@@ -38,7 +38,7 @@ Afin de faire fonctionner le code contenu dans le repo, vous aurez besoin de:
  
 ### Lancement du code
 
-Dans votre terminal, exécutez la fonction make all. Cette commande compile les différents fichiers et lance le script qui effectuant le test de performances.
+Dans votre terminal, exécutez la fonction make test. Cette commande compile les différents fichiers et lance le script qui effectuant le test de performances.
 
 ### Logiciels utilisés
 [Fedora](https://getfedora.org/fr/)
